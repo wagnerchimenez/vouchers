@@ -48,7 +48,7 @@ class ClienteController extends Controller
 
         return $cliente ? $cliente : response()->json([
             'message' => 'Cliente não encontrado!'
-        ], 404);;
+        ], 404);
     }
 
     public function update(Request $request, $id)
