@@ -17,7 +17,7 @@ class TabelaVouchers extends Migration
             $table->id();
             $table->string('hash');
             $table->date('expira_em');
-            $table->date('utilizado_em');
+            $table->date('utilizado_em')->nullable();
 
             $table->bigInteger('clientes_id')->unsigned();
             $table->foreign('clientes_id')->references('id')->on('clientes');
