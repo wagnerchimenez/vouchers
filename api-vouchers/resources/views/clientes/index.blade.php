@@ -48,6 +48,7 @@
 </div>
 
 <div class="col-12">
+    <a href="{{ route('home') }}" class="btn btn-link">Home</a>
     <a href="{{ route('clientes.create') }}" class="btn btn-primary">Novo</a>
 </div>
 
