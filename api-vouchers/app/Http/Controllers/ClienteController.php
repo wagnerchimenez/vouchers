@@ -10,78 +10,73 @@ class ClienteController extends Controller
 
     public function index()
     {
-
-        //$clientes = Http::get('http://localhost/vouchers/api-vouchers/public/clientes')->json();
-
-        /*return view('clientes', [
+        $clientes = json_decode(Http::get(env('API_URL') . 'clientes')->body());
+        return view('clientes.index', [
             'clientes' => $clientes
-        ]);*/
-
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('clientes.form', [
+            'acao_form' => route('clientes.store')
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $retorno = Http::post(env('API_URL') . 'clientes' , [
+            'nome' => $request->nome,
+            'email' => $request->email
+        ]);
+
+        if ($retorno->status() == 200) {
+            return view('clientes.sucesso', ['retorno' => json_decode($retorno->body())]);
+        }else{
+            return view('clientes.erro', ['retorno' => json_decode($retorno->body())]);
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $cliente = json_decode(Http::get(env('API_URL') . 'clientes/' . $id)->body());
+
+        return view('clientes.show', [
+            'cliente' => $cliente
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+
+        $cliente = json_decode(Http::get(env('API_URL') . 'clientes/' . $id)->body());
+
+        return view('clientes.form', [
+            'cliente' => $cliente,
+            'acao_form' => route('clientes.update', $id),
+            'update' => true
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+
+        $retorno = Http::put(env('API_URL') . 'clientes/' . $id, [
+            'nome' => $request->nome,
+            'email' => $request->email
+        ]);
+
+        if ($retorno->status() == 201) {
+            return view('clientes.sucesso', ['retorno' => json_decode($retorno->body())]);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $retorno = Http::delete(env('API_URL') . 'clientes/' . $id);
+
+        if ($retorno->status() == 202) {
+            return view('clientes.sucesso', ['retorno' => json_decode($retorno->body())]);
+        }
     }
 }
