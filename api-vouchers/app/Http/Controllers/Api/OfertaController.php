@@ -85,11 +85,21 @@ class OfertaController extends Controller
         $oferta = Oferta::find($id);
 
         if ($oferta) {
-            $oferta->delete();
 
-            return response()->json([
-                'message' => 'Oferta excluída com sucesso!'
-            ], 202);
+            // Verifica se a oferta possui vouchers gerados
+            $totalVouchers = $oferta->vouchers()->count();
+
+            if ($totalVouchers > 0) {
+                return response()->json([
+                    'message' => 'Antes de excluir esta oferta será necessário excluir seus vouchers relacionados!'
+                ], 404);
+            } else {
+                $oferta->delete();
+
+                return response()->json([
+                    'message' => 'Oferta excluída com sucesso!'
+                ], 202);
+            }
         } else {
             return response()->json([
                 'message' => 'Oferta não encontrada para exclusão!'
