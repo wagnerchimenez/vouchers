@@ -23,7 +23,7 @@
                     <td>{{ $oferta->nome }}</td>
                     <td>{{ $oferta->desconto }}% </td>
                     <td>
-                        <a href="{{ route('ofertas.edit', [$oferta->id]) }}" class="btn btn-link">Gerar vouchers</a>
+                        <a href="{{ route('ofertas.voucher.create', [$oferta->id]) }}" class="btn btn-link">Gerar vouchers</a>
                         <a href="{{ route('ofertas.edit', [$oferta->id]) }}" class="btn btn-link">Editar</a>
                         <a href="{{ route('ofertas.show', [$oferta->id]) }}" class="btn btn-link">Visualizar</a>
 

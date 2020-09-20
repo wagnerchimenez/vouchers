@@ -25,14 +25,14 @@ class OfertaController extends Controller
 
     public function store(Request $request)
     {
-        $retorno = Http::post(env('API_URL') . 'ofertas' , [
+        $retorno = Http::post(env('API_URL') . 'ofertas', [
             'nome' => $request->nome,
             'desconto' => $request->desconto
         ]);
 
         if ($retorno->status() == 200) {
             return view('ofertas.sucesso', ['retorno' => json_decode($retorno->body())]);
-        }else{
+        } else {
             return view('ofertas.erro', ['retorno' => json_decode($retorno->body())]);
         }
     }
@@ -77,6 +77,26 @@ class OfertaController extends Controller
 
         if ($retorno->status() == 202) {
             return view('ofertas.sucesso', ['retorno' => json_decode($retorno->body())]);
+        }
+    }
+
+    public function formClienteVoucher($oferta_id)
+    {
+        return view('ofertas.form_cliente_voucher', [
+            'acao_form' => route('ofertas.voucher.store', $oferta_id)
+        ]);
+    }
+
+    public function clienteVoucherStore(Request $request, $ofertas_id)
+    {
+        $retorno = Http::post(env('API_URL') . 'ofertas/' . $ofertas_id . '/vouchers', [
+            'expira_em' => ($request->expira_em ? date('Y-m-d', strtotime(str_replace('/', '-', $request->expira_em))) : ''),
+        ]);
+
+        if ($retorno->status() == 200) {
+            return view('ofertas.sucesso', ['retorno' => json_decode($retorno->body())]);
+        } else {
+            return view('ofertas.erro', ['retorno' => json_decode($retorno->body())]);
         }
     }
 }
