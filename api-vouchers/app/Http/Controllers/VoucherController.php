@@ -50,6 +50,7 @@ class VoucherController extends Controller
 
     public function show($id)
     {
+
         $voucher = json_decode(Http::get(env('API_URL') . 'vouchers/' . $id)->body());
 
         $voucher->cliente = json_decode(Http::get(env('API_URL') . 'clientes/' . $voucher->clientes_id)->body())->nome;
@@ -96,5 +97,24 @@ class VoucherController extends Controller
         if ($retorno->status() == 202) {
             return view('vouchers.sucesso', ['retorno' => json_decode($retorno->body())]);
         }
+    }
+
+    public function formValidarVoucher()
+    {
+
+        return view('vouchers.form_validar_voucher', [
+            'acao_form' => route('vouchers.validar.store')
+        ]);
+    }
+
+    public function validarVoucher(Request $request)
+    {
+
+        $request->validate([
+            'voucher_code' => 'required',
+            'email' => 'required|email',
+        ]);
+
+
     }
 }

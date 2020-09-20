@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Voucher;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class VoucherController extends Controller
 {
@@ -110,6 +111,38 @@ class VoucherController extends Controller
         } else {
             return response()->json([
                 'message' => 'Voucher não encontrado para exclusão!'
+            ], 404);
+        }
+    }
+
+    public function validar(Request $request)
+    {
+        $voucher = Voucher::select('vouchers.*', 'ofertas.desconto as desconto')
+            ->join('clientes', 'clientes.id', '=', 'vouchers.clientes_id')
+            ->join('ofertas', 'ofertas.id', '=', 'vouchers.ofertas_id')
+            ->where('vouchers.hash', $request->voucher_code)
+            ->where('clientes.email', $request->email)
+            ->first();
+
+        if ($voucher) {
+
+            if (!$voucher->utilizado_em) {
+
+                $voucher->utilizado_em = date('Y-m-d');
+                $voucher->save();
+
+                return response()->json([
+                    'message' => 'Voucher validado! ' . $voucher->desconto . '% de desconto'
+                ], 200);
+            } else {
+
+                return response()->json([
+                    'message' => 'Voucher utilizado em ' . date('d/m/Y', strtotime($voucher->utilizado_em)) . '!'
+                ], 200);
+            }
+        } else {
+            return response()->json([
+                'message' => 'Voucher não encontrado!'
             ], 404);
         }
     }

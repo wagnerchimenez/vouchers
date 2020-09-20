@@ -18,7 +18,7 @@ class ClienteController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nome' => 'required',
-            'email' => 'unique:clientes'
+            'email' => 'email|unique:clientes'
         ]);
 
         if ($validator->fails()) {

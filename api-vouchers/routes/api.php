@@ -24,4 +24,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResource('/clientes', ClienteController::class);
 Route::apiResource('/ofertas', OfertaController::class);
 Route::post('/ofertas/{ofertas_id}/vouchers', [OfertaController::class, 'gerarVouchers'])->name('ofertas.voucher.store');
+Route::post('/vouchers/validar', [VoucherController::class, 'validar'])->name('voucher.validar');
 Route::apiResource('/vouchers', VoucherController::class);

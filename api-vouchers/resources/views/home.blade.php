@@ -14,6 +14,9 @@
     <li>
         <a href="{{ route('vouchers.index') }}" class="btn btn-link">Vouchers</a>
     </li>
+    <li>
+        <a href="{{ route('vouchers.validar') }}" class="btn btn-link">Validar voucher</a>
+    </li>
 </ul>
 
 @endsection
