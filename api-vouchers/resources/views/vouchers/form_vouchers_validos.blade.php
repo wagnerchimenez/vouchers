@@ -19,16 +19,12 @@
     @csrf
 
     <div class="form-group">
-      <label for="voucher_code">Voucher code</label>
-      <input type="text" class="form-control" id="voucher_code" name="voucher_code" value="{{ old('voucher_code') }}">
-    </div>
-    <div class="form-group">
       <label for="email">E-mail</label>
       <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}">
     </div>
 
     <a href="{{ route('vouchers.index') }}" class="btn btn-link">Voltar</a>
-    <button type="submit" class="btn btn-primary">Salvar</button>
+    <button type="submit" class="btn btn-primary">Buscar</button>
 
 </form>
 

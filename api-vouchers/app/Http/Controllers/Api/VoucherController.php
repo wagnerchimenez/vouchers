@@ -146,4 +146,27 @@ class VoucherController extends Controller
             ], 404);
         }
     }
+
+    public function vouchersValidos(Request $request)
+    {
+
+        $vouchers = Voucher::select('vouchers.*', 'clientes.nome as cliente', 'ofertas.nome as oferta')
+            ->join('clientes', 'clientes.id', '=', 'vouchers.clientes_id')
+            ->join('ofertas', 'ofertas.id', '=', 'vouchers.ofertas_id')
+            ->where('clientes.email', $request->email)
+            ->where('vouchers.utilizado_em', '!=', null)
+            ->get();
+
+        if ($vouchers->count()) {
+
+            return response()->json([
+                'message' => 'OK',
+                'vouchers' => $vouchers
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Desculpe, ainda não temos vouchers válidados para este email!'
+            ], 404);
+        }
+    }
 }

@@ -17,6 +17,9 @@
     <li>
         <a href="{{ route('vouchers.validar') }}" class="btn btn-link">Validar voucher</a>
     </li>
+    <li>
+        <a href="{{ route('vouchers.validos') }}" class="btn btn-link">Vouchers válidos</a>
+    </li>
 </ul>
 
 @endsection

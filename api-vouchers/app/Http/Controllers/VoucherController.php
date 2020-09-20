@@ -115,6 +115,43 @@ class VoucherController extends Controller
             'email' => 'required|email',
         ]);
 
+        $retorno = Http::post(env('API_URL') . 'vouchers/validar', [
+            'voucher_code' => $request->voucher_code,
+            'email' => $request->email,
+        ]);
 
+        if ($retorno->status() == 200) {
+            return view('vouchers.sucesso', ['retorno' => json_decode($retorno->body())]);
+        } else {
+            return view('vouchers.erro', ['retorno' => json_decode($retorno->body())]);
+        }
+    }
+
+    public function formVouchersValidos()
+    {
+        return view('vouchers.form_vouchers_validos', [
+            'acao_form' => route('vouchers.validos.buscar')
+        ]);
+    }
+
+    public function vouchersValidos(Request $request)
+    {
+
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $retorno = Http::post(env('API_URL') . 'vouchers/validos', [
+            'email' => $request->email,
+        ]);
+
+        if ($retorno->status() == 200) {
+
+            $retorno = json_decode($retorno->body());
+
+            return view('vouchers.lista_vouchers_validos', ['vouchers' => $retorno->vouchers]);
+        } else {
+            return view('vouchers.erro', ['retorno' => json_decode($retorno->body())]);
+        }
     }
 }

@@ -25,4 +25,5 @@ Route::apiResource('/clientes', ClienteController::class);
 Route::apiResource('/ofertas', OfertaController::class);
 Route::post('/ofertas/{ofertas_id}/vouchers', [OfertaController::class, 'gerarVouchers'])->name('ofertas.voucher.store');
 Route::post('/vouchers/validar', [VoucherController::class, 'validar'])->name('voucher.validar');
+Route::post('/vouchers/validos', [VoucherController::class, 'vouchersValidos'])->name('voucher.validos');
 Route::apiResource('/vouchers', VoucherController::class);
