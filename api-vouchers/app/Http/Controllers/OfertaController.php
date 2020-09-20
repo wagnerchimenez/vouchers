@@ -12,7 +12,7 @@ class OfertaController extends Controller
     {
         $ofertas = json_decode(Http::get(env('API_URL') . 'ofertas')->body());
         return view('ofertas.index', [
-            'ofertas' => $ofertas
+            'ofertas' => $ofertas ? $ofertas : []
         ]);
     }
 

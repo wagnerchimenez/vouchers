@@ -11,8 +11,9 @@ class ClienteController extends Controller
     public function index()
     {
         $clientes = json_decode(Http::get(env('API_URL') . 'clientes')->body());
+
         return view('clientes.index', [
-            'clientes' => $clientes
+            'clientes' => $clientes ? $clientes : []
         ]);
     }
 

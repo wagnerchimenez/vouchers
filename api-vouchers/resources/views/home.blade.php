@@ -2,7 +2,7 @@
 
 @section('conteudo')
 
-<h3>Home</h3>
+<h3>Home / <small>Desafio Dev Pleno (Wagner Lima Chimenez)</small></h3>
 
 <ul>
     <li>

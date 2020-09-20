@@ -12,10 +12,15 @@ class VoucherController extends Controller
     {
         $vouchers = json_decode(Http::get(env('API_URL') . 'vouchers')->body());
 
-        foreach ($vouchers as &$voucher) {
+        if ($vouchers) {
 
-            $voucher->cliente = json_decode(Http::get(env('API_URL') . 'clientes/' . $voucher->clientes_id)->body())->nome;
-            $voucher->oferta = json_decode(Http::get(env('API_URL') . 'ofertas/' . $voucher->ofertas_id)->body())->nome;
+            foreach ($vouchers as &$voucher) {
+
+                $voucher->cliente = json_decode(Http::get(env('API_URL') . 'clientes/' . $voucher->clientes_id)->body())->nome;
+                $voucher->oferta = json_decode(Http::get(env('API_URL') . 'ofertas/' . $voucher->ofertas_id)->body())->nome;
+            }
+        } else {
+            $vouchers = [];
         }
 
         return view('vouchers.index', [
