@@ -10,6 +10,16 @@ class Voucher extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome', 'desconto'
+        'clientes_id', 'ofertas_id', 'hash', 'expira_em', 'utilizado_em'
     ];
+
+    public function cliente()
+    {
+        return $this->belongsTo('\App\Models\Cliente', 'clientes_id');
+    }
+
+    public function oferta()
+    {
+        return $this->belongsTo('\App\Models\Oferta', 'ofertas_id');
+    }
 }

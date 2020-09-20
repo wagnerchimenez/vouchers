@@ -12,4 +12,9 @@ class Oferta extends Model
     protected $fillable = [
         'nome', 'desconto'
     ];
+
+    public function vouchers()
+    {
+        return $this->hasMany('\App\Models\Voucher', 'ofertas_id');
+    }
 }

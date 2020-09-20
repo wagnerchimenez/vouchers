@@ -12,4 +12,10 @@ class Cliente extends Model
     protected $fillable = [
         'nome', 'email'
     ];
+
+    public function vouchers()
+    {
+        return $this->hasMany('\App\Models\Voucher', 'clientes_id');
+    }
+
 }

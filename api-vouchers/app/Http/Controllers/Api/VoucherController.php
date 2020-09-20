@@ -34,7 +34,7 @@ class VoucherController extends Controller
 
             // Gera código para o voucher
             $alfabeto = array_merge(range('A', 'Z'), range('a', 'z'));
-            $alfabeto_embaralhado = str_shuffle(implode('',$alfabeto));
+            $alfabeto_embaralhado = str_shuffle(implode('', $alfabeto));
             $hash = sha1($alfabeto_embaralhado);
 
             $voucher = new Voucher;
@@ -61,27 +61,38 @@ class VoucherController extends Controller
 
     public function update(Request $request, $id)
     {
-        $oferta = Oferta::find($id);
+        $voucher = Voucher::find($id);
 
-        if ($oferta) {
+        if ($voucher) {
 
-            if ($request->nome) {
-                $oferta->nome = $request->nome;
+            $validator = Validator::make($request->all(), [
+                'clientes_id' => 'required|exists:App\Models\Cliente,id',
+                'ofertas_id' => 'required|exists:App\Models\Oferta,id',
+                'expira_em' => 'required|date_format:Y-m-d'
+            ]);
+
+            if ($validator->fails()) {
+
+                $erros = $validator->errors();
+
+                return response()->json([
+                    'message' => $erros->first()
+                ], 404);
+            } else {
+
+                $voucher->clientes_id = $request->clientes_id;
+                $voucher->ofertas_id = $request->ofertas_id;
+                $voucher->expira_em = $request->expira_em;
+                $voucher->save();
+
+                return response()->json([
+                    'message' => 'Voucher atualizada com sucesso!'
+                ], 201);
             }
-
-            if ($request->desconto) {
-                $oferta->desconto = $request->desconto;
-            }
-
-            $oferta->save();
-
-            return response()->json([
-                'message' => 'Oferta atualizada com sucesso!'
-            ], 201);
         } else {
 
             return response()->json([
-                'message' => 'Oferta não encontrada para edição!'
+                'message' => 'Voucher não encontrado para edição!'
             ], 404);
         }
     }
