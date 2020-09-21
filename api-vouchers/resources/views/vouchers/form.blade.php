@@ -34,11 +34,11 @@
     </div>
     <div class="form-group">
       <label for="expira_em">Data de expiração</label>
-      <input type="text" class="form-control date" id="expira_em" name="expira_em" value="{{ ($voucher->expira_em ? date('d/m/Y', strtotime($voucher->expira_em)) : '') ?? old('expira_em') }}" data-mask="00/00/0000">
+      <input type="text" class="form-control date" id="expira_em" name="expira_em" value="{{ isset($voucher->expira_em) ? date('d/m/Y', strtotime($voucher->expira_em)) : '' }}" data-mask="00/00/0000">
     </div>
     <div class="form-group">
       <label for="utilizado_em">Data de utilização</label>
-      <input type="text" class="form-control date" id="utilizado_em" name="utilizado_em" value="{{ ($voucher->utilizado_em ? date('d/m/Y', strtotime($voucher->utilizado_em)) : '') ?? old('utilizado_em') }}">
+      <input type="text" class="form-control date" id="utilizado_em" name="utilizado_em" value="{{ isset($voucher->utilizado_em) ? date('d/m/Y', strtotime($voucher->utilizado_em)) : '' }}">
     </div>
 
     <a href="{{ route('vouchers.index') }}" class="btn btn-link">Voltar</a>

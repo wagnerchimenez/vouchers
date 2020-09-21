@@ -33,7 +33,7 @@ class VoucherController extends Controller
         return view('vouchers.form', [
             'acao_form' => route('vouchers.store'),
             'clientes' => json_decode(Http::get(env('API_URL') . 'clientes')->body()),
-            'ofertas' => json_decode(Http::get(env('API_URL') . 'ofertas')->body())
+            'ofertas' => json_decode(Http::get(env('API_URL') . 'ofertas')->body()),
         ]);
     }
 

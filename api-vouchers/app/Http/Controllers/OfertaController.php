@@ -77,6 +77,8 @@ class OfertaController extends Controller
 
         if ($retorno->status() == 202) {
             return view('ofertas.sucesso', ['retorno' => json_decode($retorno->body())]);
+        } else {
+            return view('ofertas.erro', ['retorno' => json_decode($retorno->body())]);
         }
     }
 
